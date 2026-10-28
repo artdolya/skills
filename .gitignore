@@ -1,0 +1,29 @@
+# Local credentials and environment files
+/.codex/
+/.agents/
+/.aws/
+/.ssh/
+.env
+.env.*
+!.env.example
+
+# Machine-local settings, backups, and caches
+/.vscode/
+/.idea/
+/.cache/
+/backups/
+
+# OS and editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Generated Python files
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Generated dependencies
+node_modules/

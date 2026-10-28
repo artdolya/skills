@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prompt Architect"
+  short_description: "Turn ideas into clear, ready-to-use LLM prompts"
+  default_prompt: "Use $prompt-architect to turn my request into a clear, ready-to-use prompt."
