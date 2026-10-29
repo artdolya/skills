@@ -80,21 +80,51 @@ environment; identical names are not merged.
 
 ## Install only prompt-architect
 
-Once this skill has been committed and pushed to `master`, ask **inside Codex**:
+Use the same prompt on **Windows, macOS, Linux, or WSL**. Once the skill has been
+committed and pushed to `master`, open a Codex chat on the target device and paste
+the following. This is a chat prompt, not a PowerShell or Bash command:
 
 ```text
-$skill-installer Install only skills/prompt-architect from https://github.com/artdolya/skills/tree/master/skills/prompt-architect into my user ~/.agents/skills directory. Preserve any existing installation and its local edits.
+$skill-installer Install only prompt-architect from
+https://github.com/artdolya/skills/tree/master/skills/prompt-architect
+for the environment running this Codex chat (Windows, macOS, Linux, or WSL).
+Resolve that environment's user home and pass the absolute .agents/skills
+directory as --dest. First check for existing prompt-architect installations,
+including symlinks, in that directory, CODEX_HOME/skills (or .codex/skills when
+CODEX_HOME is unset), and applicable project skill directories. Preserve local
+changes and avoid duplicate active installations. If an installation already
+exists, compare it with the requested version and report the differences before
+replacing it. Confirm the final installation path.
 ```
+
+The installer receives the parent `.agents/skills` directory as `--dest`; it adds
+the `prompt-architect` folder itself. Resolve the home directory on the target
+device rather than copying another computer's username or absolute path:
+
+| Codex execution environment | User skill directory |
+| --- | --- |
+| Native Windows | `Join-Path $env:USERPROFILE '.agents\skills'` in PowerShell (normally `C:\Users\<USERNAME>\.agents\skills`) |
+| macOS | `$HOME/.agents/skills` (normally `/Users/<USERNAME>/.agents/skills`) |
+| Linux | `$HOME/.agents/skills` (normally `/home/<USERNAME>/.agents/skills`) |
+| WSL | `$HOME/.agents/skills` inside the selected Linux distribution |
+
+The execution environment matters: a Windows desktop chat using a WSL backend
+installs into WSL with this prompt. For native Windows installation, use a chat
+running in Windows or explicitly request the Windows destination. Likewise, a
+chat running on a remote host installs there, not on the computer displaying it.
 
 The URL uses this checkout's existing GitHub remote and branch. For a fork, use
 `https://github.com/<OWNER>/<REPOSITORY>/tree/<REF>/skills/prompt-architect`.
 Use a tag or commit for a fixed version. Only the selected skill folder is
 installed, including `agents/openai.yaml`; repository settings are not installed.
+For a private repository, the target environment needs authenticated GitHub
+access. A separate maintained Git checkout is optional for this installation.
 
 The bundled installer makes a copy and refuses to overwrite an existing
 destination. Copies do not follow Git updates. Use the update procedure below
-when replacing one. If the installer is unavailable, copy from a checkout as
-described next.
+when replacing one, including backing up outside discovery directories and
+reconciling wanted local edits. If the installer is unavailable, use the Bash or
+PowerShell copy instructions in the next section.
 
 Invoke the installed skill with the `$prompt-architect` example above. It can
 also be selected automatically when a request matches its existing description.
@@ -199,8 +229,25 @@ git diff --no-index --ignore-space-at-eol -- "$installed_skill" ./skills/prompt-
 ```
 
 This comparison ignores trailing whitespace, including CRLF differences; exit
-status 1 means differences were found. Check errors separately. Merge any wanted
-local edits into the repository, validate, and commit them before replacement.
+status 1 means differences were found, including possible permission-only
+differences. Windows-mounted files may appear as mode `100755` while the
+repository files are `100644`; that output alone does not indicate changed
+instructions. Review the output before deciding whether local edits exist.
+
+On Linux or WSL, GNU `diff` can compare contents and directory structure while
+ignoring permissions and CRLF-versus-LF differences:
+
+```bash
+diff -ru --strip-trailing-cr -- "$installed_skill" ./skills/prompt-architect
+```
+
+This command returns 0 for matching contents, 1 for differences, and a higher
+status for errors. The `--strip-trailing-cr` option requires GNU `diff`; do not
+assume it is available in the default macOS `diff`. Prefer this check over Git's
+no-index exit status when using `set -e` in a WSL migration command block.
+
+Merge any wanted local edits into the repository, validate, and commit them
+before replacement.
 For a symlink, check its target and that checkout's Git status instead: the
 installed skill may already be the same files you are editing.
 
