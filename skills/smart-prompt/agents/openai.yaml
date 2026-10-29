@@ -1,0 +1,4 @@
+interface:
+  display_name: "Smart Prompt"
+  short_description: "Improve a task prompt, show it, and carry it out"
+  default_prompt: "Use $smart-prompt to improve my task request with Prompt Architect, show the generated prompt, and then execute it."

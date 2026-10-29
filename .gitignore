@@ -27,3 +27,7 @@ __pycache__/
 
 # Generated dependencies
 node_modules/
+
+
+# Temporary exclude validate-docs
+skills/validate-docs/

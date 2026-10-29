@@ -9,12 +9,18 @@ push changes; installed copies are not the source of truth.
 | Skill | Purpose | Requirements |
 | --- | --- | --- |
 | [prompt-architect](skills/prompt-architect/SKILL.md) | Create, improve, or evaluate prompts and reusable instruction templates. | A compatible agent; no scripts, API keys, or external tools required. |
+| [smart-prompt](skills/smart-prompt/SKILL.md) | Improve a task with Prompt Architect, show the prompt, and execute it in the same chat. | `prompt-architect` must also be installed. |
 
 Example after installation:
 
 ```text
 $prompt-architect Improve this prompt for clarity and make the output format explicit: …
+$smart-prompt Create a concise onboarding checklist for a new teammate.
 ```
+
+`smart-prompt` shows its generated prompt and then carries out the task without
+requiring another message. Add "prompt only" to preview without execution.
+Install both skill folders; existing action-specific approvals still apply.
 
 ## Repository layout
 
@@ -24,7 +30,11 @@ $prompt-architect Improve this prompt for clarity and make the output format exp
 ├── .gitattributes
 ├── .gitignore
 └── skills/
-    └── prompt-architect/
+    ├── prompt-architect/
+    │   ├── SKILL.md
+    │   └── agents/
+    │       └── openai.yaml
+    └── smart-prompt/
         ├── SKILL.md
         └── agents/
             └── openai.yaml
@@ -39,6 +49,9 @@ Keep every skill self-contained: use relative paths within its folder and avoid
 dependencies on sibling skills or repository-level files. Individual installation
 copies only the chosen folder. Document any required tools or configuration in
 the skill, and keep credentials and computer-specific paths out of it.
+`smart-prompt` intentionally composes the separately installed `prompt-architect`
+skill, resolving it through the active skill catalog rather than a fixed sibling
+path. Install both when sharing or setting up this workflow.
 
 `README.md` holds the catalog and maintenance instructions. `.gitignore` excludes
 local settings, credentials, backups, and generated files. `.gitattributes` keeps
