@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flag Football Highlights"
+  short_description: "Complete, accurate flag-football family highlights"
+  default_prompt: "Use $flag-football-highlights to review every supplied episode, retain all key moments without a runtime limit, verify player attribution, and deliver our family video open in ChatCut with game cards, banners, replays, outcome-matched music, and a YouTube cover."

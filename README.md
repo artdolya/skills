@@ -10,6 +10,7 @@ push changes; installed copies are not the source of truth.
 | --- | --- | --- |
 | [prompt-architect](skills/prompt-architect/SKILL.md) | Create, improve, or evaluate prompts and reusable instruction templates. | A compatible agent; no scripts, API keys, or external tools required. |
 | [smart-prompt](skills/smart-prompt/SKILL.md) | Improve a task with Prompt Architect, show the prompt, and execute it in the same chat. | `prompt-architect` must also be installed. |
+| [flag-football-highlights](skills/flag-football-highlights/SKILL.md) | Review complete game footage and create accurate family highlights, an editable ChatCut video, and a YouTube cover. | ChatCut with the relevant skills/tools; accessible footage, music, and a separate football workspace for team/game records. |
 
 Example after installation:
 
@@ -141,6 +142,53 @@ PowerShell copy instructions in the next section.
 
 Invoke the installed skill with the `$prompt-architect` example above. It can
 also be selected automatically when a request matches its existing description.
+
+## Install and use flag-football-highlights across devices
+
+The maintained source is `skills/flag-football-highlights/`. It is reusable across
+teams and seasons; real names and game history belong in the separate private
+football workspace. Install the whole folder, including `agents/` and
+`references/`. From a Codex chat on the target
+macOS, Windows, Linux, or WSL environment, use:
+
+```text
+$skill-installer Install only flag-football-highlights from
+https://github.com/artdolya/skills/tree/master/skills/flag-football-highlights
+for the environment running this Codex chat. Resolve its user home and pass the
+absolute .agents/skills directory as --dest. Check that directory, CODEX_HOME/skills
+(or .codex/skills when unset), and applicable project skill directories for an
+existing copy or symlink. Compare existing installations, preserve local changes,
+and keep any backup outside skill-discovery directories. Keep one active install
+and confirm its final location.
+```
+
+For a maintained clone, follow the guarded symlink/copy instructions below,
+substituting `flag-football-highlights` for `prompt-architect`. Recreate symlinks
+on each macOS, Linux, or WSL environment; use the guarded PowerShell copy on
+native Windows when symlinks are inconvenient. Copies need replacement after
+updates; links follow the checked-out branch. Pull the published branch before
+updating another device. The [official discovery documentation](https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills),
+checked November 4, 2026, supports user installs in `.agents/skills` and symlinked
+skill folders. An existing working `.codex/skills` installation can be reconciled
+in place; do not create a second active copy just to change its location.
+
+Install or connect the requested ChatCut surface and its relevant skills/tools
+separately. Make footage, music, and the private football workspace accessible on
+that device; verify the correct ChatCut project and media when resuming an edit.
+Earlier chats and project identifiers remain account/access-dependent. The skill
+does not transfer media, team records, chat history, account access, or spending
+approvals. Identify the football workspace in the task or local workspace
+instructions; its `team-memory/<team-season>/roster.json` and game review files
+are resolved relative to that root, never to this repository or an old laptop's
+home directory.
+
+Invoke it with, for example:
+
+```text
+$flag-football-highlights Prepare highlights for this game. My football workspace
+on this device is [LOCAL_WORKSPACE_PATH]; the game folder is [GAME_FOLDER].
+Use [REQUESTED_CHATCUT_SURFACE] and the supplied footage and game facts.
+```
 
 ## Use across your own computers
 
